@@ -95,7 +95,8 @@ class _ImpactScreenState extends State<ImpactScreen> {
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
-              children: [
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
                 const SizedBox(
                   height: 24,
                 ),
@@ -121,6 +122,9 @@ class _ImpactScreenState extends State<ImpactScreen> {
                   defaultHeight: 0,
                   onChange: (value) => setState(() => updateChapter(value)),
                 ),
+                const SizedBox(height: 17,),
+                Text(text != "" ? "Совет" : text),
+                const SizedBox(height: 8,),
                 text != "" ? Container(
                     decoration: BoxDecoration(
                         color: Colors.white,

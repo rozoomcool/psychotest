@@ -4,27 +4,28 @@ import 'package:psyhotest/utils/ui_constants.dart';
 
 import '../../utils/constants.dart';
 
-class ExtendedDropDownMenu extends StatefulWidget {
-  const ExtendedDropDownMenu(
+class TestDropDownMenu extends StatefulWidget {
+  const TestDropDownMenu(
       {super.key,
       required this.text,
       required this.items,
       required this.defaultHeight,
-      this.margin = 8, required this.onChange});
+      this.margin = 8,
+      required this.onChange});
 
   final String text;
-  final Map<String, int> items;
+  final List<String> items;
   final double defaultHeight;
   final double margin;
   final Function(String) onChange;
 
   @override
-  State<ExtendedDropDownMenu> createState() => _ExtendedDropDownMenuState();
+  State<TestDropDownMenu> createState() => _TestDropDownMenuState();
 }
 
-class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
+class _TestDropDownMenuState extends State<TestDropDownMenu> {
   bool isExtended = false;
-  String? selected;
+  String? selected = null;
 
   void toggleExtend() => setState(() => isExtended = !isExtended);
 
@@ -49,7 +50,12 @@ class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    SizedBox(width: 200, child: Text(selected == null ? widget.text : selected!, overflow: TextOverflow.ellipsis,)),
+                    SizedBox(
+                        width: 200,
+                        child: Text(
+                          selected == null || !widget.items.contains(selected) ? widget.text : selected!,
+                          overflow: TextOverflow.ellipsis,
+                        )),
                     Icon(
                         isExtended ? Iconsax.arrow_up_2 : Iconsax.arrow_down_14)
                   ],
@@ -66,45 +72,31 @@ class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
                     ),
                     padding: const EdgeInsets.all(20),
                     child: Wrap(
-                      runSpacing: 24,
-                      children: widget.items.entries
+                      runSpacing: 12,
+                      children: widget.items
                           .map<Widget>(
                             (entry) => InkWell(
                               onTap: () {
                                 setState(() {
-                                  selected = entry.key;
+                                  selected = entry;
                                 });
                                 toggleExtend();
                                 widget.onChange(selected!);
                               },
                               child: SizedBox(
-                                  height: 24,
+                                  height: 66,
                                   width: double.infinity,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 200,
-                                        child: Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          entry.key,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  letterSpacing: 0.16,
-                                                  color: secondaryTextColor),
-                                        ),
-                                      ),
-                                      CircleAvatar(
-                                        backgroundColor: Color(entry.value),
-                                        radius: 6,
-                                      )
-                                    ],
+                                  child: Text(
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    entry,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 0.16,
+                                            color: secondaryTextColor),
                                   )),
                             ),
                           )
@@ -116,7 +108,7 @@ class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
                   )),
         SizedBox(
           height: widget.margin,
-        )
+        ),
       ],
     );
   }
