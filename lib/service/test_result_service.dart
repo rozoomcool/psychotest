@@ -15,9 +15,10 @@ class TestResultService {
   }
 
   void addTestResult(TestResult testResult) {
-    List<TestResult> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]");
+    List<TestResult> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]").map((el) => TestResult.fromJson(el)).toList();
+    data.add(testResult);
 
-    _sharedPreferences.setString(resultsPrefName, json.encode(testResult));
+    _sharedPreferences.setString(resultsPrefName, json.encode(data));
   }
 
   TestResultService(this._sharedPreferences);
