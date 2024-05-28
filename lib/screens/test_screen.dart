@@ -98,6 +98,27 @@ class _TestScreenState extends State<TestScreen> {
                                 .firstWhere((v) => v.pattern == value);
                             updateCurrentAnswer(q.psychotype!);
                           }),
+
+                          const SizedBox(height: 12,),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Ваш ответ", style: TextStyle(fontSize: 14, color: Color(0xFF8C888A)),),
+                                const SizedBox(height: 8,),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                                  ),
+                                  padding: EdgeInsets.all(20),
+                                  child: Text(currentAnswer!),
+                                )
+                              ],
+                            ),
+                          ),
                       const SizedBox(
                         height: 40,
                       ),
