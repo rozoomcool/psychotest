@@ -80,11 +80,12 @@ class _TestScreenState extends State<TestScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 31, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 31),
           child: question != null
               ? SingleChildScrollView(
                   child: Column(
                     children: [
+                      const SizedBox(height: 36,),
                       Text(question!.question!, style: h2TextStyle),
                       const SizedBox(
                         height: 32,
@@ -134,7 +135,8 @@ class _TestScreenState extends State<TestScreen> {
                                           .bodyLarge
                                           ?.copyWith(color: secondaryTextColor),
                                     ),
-                                  )
+                                  ),
+                                  const SizedBox(height: 36,)
                                 ],
                               )
                             : const SizedBox(),

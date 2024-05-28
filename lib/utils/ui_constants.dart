@@ -7,6 +7,7 @@ const hintTextColor = Color(0xFF8C888A);
 const secondaryColor = Color(0xFFCFC1C9);
 
 const hTextStyle = TextStyle(fontFamily: "Benzin", fontSize: 32, height: 1.2);
+const h3TextStyle = TextStyle(fontFamily: "Benzin", fontSize: 16, height: 1.2);
 const h2TextStyle = TextStyle(fontFamily: "Benzin", fontSize: 24, height: 1.2);
 
 const hintTextStyle = TextStyle(fontSize: 14, color: hintTextColor);

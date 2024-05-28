@@ -7,7 +7,7 @@ class SecondaryExtendedButton extends StatefulWidget {
   const SecondaryExtendedButton(
       {super.key, required this.text, required this.extendedChild, required this.defaultHeight, this.margin = 8});
 
-  final String text;
+  final Widget text;
   final Widget extendedChild;
   final double defaultHeight;
   final double margin;
@@ -42,7 +42,7 @@ class _SecondaryExtendedButtonState extends State<SecondaryExtendedButton> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(widget.text, overflow: TextOverflow.ellipsis,),
+                    widget.text,
                     Icon(
                         isExtended ? Iconsax.arrow_up_2 : Iconsax.arrow_down_14)
                   ],

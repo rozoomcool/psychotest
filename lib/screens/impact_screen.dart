@@ -111,13 +111,13 @@ class _ImpactScreenState extends State<ImpactScreen> {
                 // CustomDropDownButton(values: impactChapters, controller: _chapterController),
 
                 ExtendedDropDownMenu(
-                  text: "Пихотип",
+                  text: const Text("Пихотип", overflow: TextOverflow.ellipsis),
                   items: psychotypes,
                   defaultHeight: 0,
                   onChange: (value) => setState(() => updatePsychotype(value)),
                 ),
                 ExtendedDropDownMenu(
-                  text: "Раздел",
+                  text: const Text("Раздел", overflow: TextOverflow.ellipsis),
                   items: impactChapters,
                   defaultHeight: 0,
                   onChange: (value) => setState(() => updateChapter(value)),

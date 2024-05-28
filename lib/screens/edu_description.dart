@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:go_router/go_router.dart';
 import 'package:psyhotest/screens/components/extended_drop_down_menu.dart';
 import 'package:psyhotest/utils/constants.dart';
@@ -6,8 +8,25 @@ import 'package:psyhotest/utils/ui_constants.dart';
 
 import 'components/custom_bottom_navigation.dart';
 
-class EduDescription extends StatelessWidget {
+class EduDescription extends StatefulWidget {
   const EduDescription({super.key});
+
+  @override
+  State<EduDescription> createState() => _EduDescriptionState();
+}
+
+class _EduDescriptionState extends State<EduDescription> {
+
+  String? selected;
+  String? data;
+
+  void updateData(String value) async {
+    setState(() {
+      setState(() => selected = value);
+    });
+    var temp = await rootBundle.loadString('assets/${psychotypesToAssets[selected]}.md');
+    setState(() => data = temp);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,33 +34,45 @@ class EduDescription extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigation(onPressed: () => context.pop(),),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 31, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 31),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 32,),
                 const Text("Информация", style: hTextStyle,),
-                SizedBox(height: 16,),
+                const SizedBox(height: 16,),
                 ExtendedDropDownMenu(
-                    text: "Психотипы",
+                    text: const Text("Психотипы", overflow: TextOverflow.ellipsis),
                     items: psychotypes,
                     defaultHeight: 0,
-                    onChange: (c) {}
+                    onChange: (value) => updateData(value)
                 ),
                 const SizedBox(height: 16,),
-                const Text("Совет", style: hintTextStyle,),
+                Text(data == null ? "" : "Совет", style: hintTextStyle,),
                 const SizedBox(height: 8,),
-                Container(
+                data == null ? const SizedBox() : Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.white
                   ),
-                  padding: const EdgeInsets.all(20),
-                  child: const Text("kkjgkdf"),
-                )
+                  // padding: const EdgeInsets.all(20),
+                  child: Markdown(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    data: data == null ? "" : data!,
+                    styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context).copyWith(
+                      textTheme: Theme.of(context).textTheme.copyWith().apply(
+                        bodyColor: Colors.black,
+
+                      )
+                    )),
+                  ),
+                ),
+                const SizedBox(height: 16,)
               ],
             ),
           ),

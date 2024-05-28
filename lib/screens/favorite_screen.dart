@@ -37,13 +37,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 31, vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 31),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                const SizedBox(height: 24,),
                 const Text(
                   style: hTextStyle,
                   "Избранное",
@@ -61,7 +62,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, i) {
                             return SecondaryExtendedButton(
-                              text: results![i].comment,
+                              text: Text(results![i].comment, overflow: TextOverflow.ellipsis),
                               extendedChild: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
@@ -126,7 +127,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           },
                         ),
                       )
-                    : const SizedBox()
+                    : const SizedBox(),
+                const SizedBox(height: 24,),
               ],
             ),
           ),

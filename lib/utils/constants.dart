@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 
 const String resultsPrefName = "results";
 
+const Map<String, String> psychotypesToAssets = {
+  "Гипертим": "hyperteam",
+  "Истероид": "isteroid",
+  "Паранойял": "paranoyal",
+  "Тревожный": "trevojniy",
+  "Шизоид": "shizoid",
+  "Эмотив": "amotive",
+  "Эпилептоид": "epileptoid"
+};
+
 const Map<String, int> psychotypes = {
   "Гипертим": 0xFFE02B2B,
   "Истероид": 0xFF6FE02B,

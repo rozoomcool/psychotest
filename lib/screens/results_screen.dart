@@ -61,13 +61,14 @@ class _ResultsScreenState extends State<ResultsScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 31, vertical: 36),
+          padding: const EdgeInsets.symmetric(horizontal: 31),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
+                const SizedBox(height: 36,),
                 const Text("Анализ завершен", style: h2TextStyle),
                 const SizedBox(
                   height: 32,
@@ -158,7 +159,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
                               const SizedBox(height: 48, child: Divider()),
                           itemCount: answers!.length,
                         ),
-                      )
+                      ),
+                const SizedBox(height: 36,)
               ],
             ),
           ),

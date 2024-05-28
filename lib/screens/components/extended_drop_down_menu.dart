@@ -10,12 +10,15 @@ class ExtendedDropDownMenu extends StatefulWidget {
       required this.text,
       required this.items,
       required this.defaultHeight,
-      this.margin = 8, required this.onChange});
+      this.margin = 8,
+      this.enabled = true,
+      required this.onChange});
 
-  final String text;
+  final Widget text;
   final Map<String, int> items;
   final double defaultHeight;
   final double margin;
+  final bool enabled;
   final Function(String) onChange;
 
   @override
@@ -49,7 +52,14 @@ class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    SizedBox(width: 200, child: Text(selected == null ? widget.text : selected!, overflow: TextOverflow.ellipsis,)),
+                    SizedBox(
+                        width: 200,
+                        child: selected == null
+                            ? widget.text
+                            : Text(
+                                selected!,
+                                overflow: TextOverflow.ellipsis,
+                              )),
                     Icon(
                         isExtended ? Iconsax.arrow_up_2 : Iconsax.arrow_down_14)
                   ],
@@ -71,11 +81,13 @@ class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
                           .map<Widget>(
                             (entry) => InkWell(
                               onTap: () {
-                                setState(() {
-                                  selected = entry.key;
-                                });
-                                toggleExtend();
-                                widget.onChange(selected!);
+                                if (widget.enabled) {
+                                  setState(() {
+                                    selected = entry.key;
+                                  });
+                                  toggleExtend();
+                                  widget.onChange(selected!);
+                                }
                               },
                               child: SizedBox(
                                   height: 24,
@@ -84,7 +96,8 @@ class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
                                         width: 200,
