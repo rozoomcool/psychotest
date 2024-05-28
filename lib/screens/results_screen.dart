@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:psyhotest/models/test_result.dart';
 import 'package:psyhotest/screens/components/custom_bottom_navigation.dart';
+import 'package:psyhotest/service/test_result_service.dart';
 import 'package:psyhotest/utils/constants.dart';
 
 import '../utils/ui_constants.dart';
@@ -14,11 +17,16 @@ class ResultsScreen extends StatefulWidget {
 
 class _ResultsScreenState extends State<ResultsScreen> {
   Map<String, double>? answers;
+  final descriptionController = TextEditingController();
+  bool _validate = true;
 
   @override
   void initState() {
     super.initState();
   }
+
+  void notValidate() => setState(() => _validate = false);
+  void validate() => setState(() => _validate = true);
 
   void countDuplicates(List<String> list) {
     Map<String, double> counts = {};
@@ -64,6 +72,52 @@ class _ResultsScreenState extends State<ResultsScreen> {
                 const SizedBox(
                   height: 32,
                 ),
+                const Text("Краткое описание", style: hintTextStyle,),
+                const SizedBox(height: 8,),
+                SizedBox(
+                  width: double.infinity,
+                  // height: 52,
+                  child: TextField(
+                    onChanged: (value) => {
+                      value.isNotEmpty ? validate() : notValidate()
+                    },
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.black),
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                        hintText: "Введите текст",
+                        errorText: !_validate ? "Значение не должно быть пустым" : null,
+                        hintStyle: hintTextStyle,
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: Colors.white)
+                        )
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16,),
+                ElevatedButton(onPressed: () {
+                  if(descriptionController.value.text.isNotEmpty) {
+                      List<MapEntry<String, double>> results = answers!.entries.toList()..sort((a, b) => a.value.compareTo(b.value));
+                      MapEntry<String, double>? first = results.isNotEmpty ? results.removeAt(0) : null;
+                      MapEntry<String, double>? second = results.isNotEmpty ? results.removeAt(0) : null;
+                      TestResult result = TestResult(
+                          comment: descriptionController.value.text,
+                          results: Map.from({
+                            first?.key : first?.value,
+                            second?.key : second?.value
+                          })
+                      );
+                      GetIt.I<TestResultService>().addTestResult(result);
+                      context.go("/");
+                  } else {
+                    notValidate();
+                  }
+                }, child: const Text("Сохранить результат")),
+                const SizedBox(
+                  height: 32,
+                ),
                 answers == null
                     ? const SizedBox()
                     : Container(
@@ -73,6 +127,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 24),
                         child: ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
                             String key = answers!.entries.toList()[index].key;
@@ -100,7 +155,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) =>
-                              SizedBox(height: 48, child: const Divider()),
+                              const SizedBox(height: 48, child: Divider()),
                           itemCount: answers!.length,
                         ),
                       )

@@ -27,7 +27,7 @@ class _TestScreenState extends State<TestScreen> {
   void toggleAnsweredToTrue() => setState(() => isAnswered = true);
   void toggleAnsweredToFalse() => setState(() => isAnswered = false);
 
-  void updateCurrentAnswer(String value) {
+  void updateCurrentAnswer(String? value) {
     setState(() => currentAnswer = value);
     toggleAnsweredToTrue();
   }
@@ -59,6 +59,7 @@ class _TestScreenState extends State<TestScreen> {
       GoRouter.of(context).push('/results', extra: answers);
     }
     toggleAnsweredToFalse();
+    updateCurrentAnswer(null);
   }
 
   void addAnswer() {
@@ -102,22 +103,23 @@ class _TestScreenState extends State<TestScreen> {
                           const SizedBox(height: 12,),
                           SizedBox(
                             width: double.infinity,
-                            child: Column(
+                            child: currentAnswer != null ? Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Ваш ответ", style: TextStyle(fontSize: 14, color: Color(0xFF8C888A)),),
+                                const Text("Ваш ответ", style: hintTextStyle,),
                                 const SizedBox(height: 8,),
                                 Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.all(Radius.circular(12)),
                                   ),
-                                  padding: EdgeInsets.all(20),
-                                  child: Text(currentAnswer!),
+                                  padding: const EdgeInsets.all(20),
+                                  child: Text(question!.answers!
+                                      .firstWhere((v) => v.psychotype == currentAnswer!).pattern!, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor),),
                                 )
                               ],
-                            ),
+                            ) : const SizedBox(),
                           ),
                       const SizedBox(
                         height: 40,
