@@ -40,7 +40,7 @@ class EduDescription extends StatelessWidget {
                     color: Colors.white
                   ),
                   padding: const EdgeInsets.all(20),
-                  child: Text("kkjgkdf"),
+                  child: const Text("kkjgkdf"),
                 )
               ],
             ),
