@@ -25,6 +25,7 @@ class _TestScreenState extends State<TestScreen> {
   String? currentAnswer;
 
   void toggleAnsweredToTrue() => setState(() => isAnswered = true);
+
   void toggleAnsweredToFalse() => setState(() => isAnswered = false);
 
   void updateCurrentAnswer(String? value) {
@@ -55,7 +56,7 @@ class _TestScreenState extends State<TestScreen> {
         question = questions.removeAt(0);
       });
     }
-    if(questions.isEmpty) {
+    if (questions.isEmpty) {
       GoRouter.of(context).push('/results', extra: answers);
     }
     toggleAnsweredToFalse();
@@ -99,28 +100,45 @@ class _TestScreenState extends State<TestScreen> {
                                 .firstWhere((v) => v.pattern == value);
                             updateCurrentAnswer(q.psychotype!);
                           }),
-
-                          const SizedBox(height: 12,),
-                          SizedBox(
-                            width: double.infinity,
-                            child: currentAnswer != null ? Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text("Ваш ответ", style: hintTextStyle,),
-                                const SizedBox(height: 8,),
-                                Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: currentAnswer != null
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Ваш ответ",
+                                    style: hintTextStyle,
                                   ),
-                                  padding: const EdgeInsets.all(20),
-                                  child: Text(question!.answers!
-                                      .firstWhere((v) => v.psychotype == currentAnswer!).pattern!, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor),),
-                                )
-                              ],
-                            ) : const SizedBox(),
-                          ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                    ),
+                                    padding: const EdgeInsets.all(20),
+                                    child: Text(
+                                      question!.answers!
+                                          .firstWhere((v) =>
+                                              v.psychotype == currentAnswer!)
+                                          .pattern!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(color: secondaryTextColor),
+                                    ),
+                                  )
+                                ],
+                              )
+                            : const SizedBox(),
+                      ),
                       const SizedBox(
                         height: 40,
                       ),

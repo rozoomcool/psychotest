@@ -9,13 +9,13 @@ class TestResultService {
   final SharedPreferences _sharedPreferences;
 
   List<TestResult> getTestResults() {
-    List<Map<String, dynamic>> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]");
+    List<TestResult> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]").map<TestResult>((el) => TestResult.fromJson(el)).toList();
 
-    return data.map((el) => TestResult.fromJson(el)).toList();
+    return data;
   }
 
   void addTestResult(TestResult testResult) {
-    List<TestResult> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]").map((el) => TestResult.fromJson(el)).toList();
+    List<TestResult> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]").map<TestResult>((el) => TestResult.fromJson(el)).toList();
     data.add(testResult);
 
     _sharedPreferences.setString(resultsPrefName, json.encode(data));

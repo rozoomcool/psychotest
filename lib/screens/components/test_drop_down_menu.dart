@@ -84,10 +84,10 @@ class _TestDropDownMenuState extends State<TestDropDownMenu> {
                                 widget.onChange(selected!);
                               },
                               child: SizedBox(
-                                  height: 66,
+                                  height: 44,
                                   width: double.infinity,
                                   child: Text(
-                                    maxLines: 3,
+                                    maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     entry,
                                     style: Theme.of(context)
