@@ -86,9 +86,9 @@ class _ImpactScreenState extends State<ImpactScreen> {
   Widget build(BuildContext context) {
     debugPrint(data?.impacts[0].toString());
     return Scaffold(
-      bottomNavigationBar: CustomBottomNavigation(
-        onPressed: () => context.pop(),
-      ),
+      // bottomNavigationBar: CustomBottomNavigation(
+      //   onPressed: () => context.pop(),
+      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 34, right: 28),
@@ -139,7 +139,8 @@ class _ImpactScreenState extends State<ImpactScreen> {
                     )) : const SizedBox(),
                 const SizedBox(
                   height: 12,
-                )
+                ),
+                CustomBottomNavigation(onPressed: () => context.pop(),)
               ],
             ),
           ),

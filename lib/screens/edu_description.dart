@@ -31,7 +31,6 @@ class _EduDescriptionState extends State<EduDescription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CustomBottomNavigation(onPressed: () => context.pop(),),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 31),
@@ -72,7 +71,8 @@ class _EduDescriptionState extends State<EduDescription> {
                     )),
                   ),
                 ),
-                const SizedBox(height: 16,)
+                const SizedBox(height: 16,),
+                CustomBottomNavigation(onPressed: () => context.pop(),)
               ],
             ),
           ),

@@ -7,6 +7,7 @@ import 'package:psyhotest/screens/edu_test_photo_screen.dart';
 import 'package:psyhotest/screens/edu_test_screen.dart';
 import 'package:psyhotest/screens/favorite_screen.dart';
 import 'package:psyhotest/screens/impact_screen.dart';
+import 'package:psyhotest/screens/result_saved_screen.dart';
 import 'package:psyhotest/screens/results_screen.dart';
 import 'package:psyhotest/screens/test_screen.dart';
 import 'package:psyhotest/utils/ui_constants.dart';
@@ -46,6 +47,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/results',
       builder: (context, state) => const ResultsScreen(),
+    ),
+    GoRoute(
+      path: '/resultsplach',
+      builder: (context, state) => const ResultSavedScreen(),
     ),
   ],
 );

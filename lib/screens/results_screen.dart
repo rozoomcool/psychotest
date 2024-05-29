@@ -111,7 +111,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                           })
                       );
                       GetIt.I<TestResultService>().addTestResult(result);
-                      context.go("/");
+                      context.go("/resultsplach");
                   } else {
                     notValidate();
                   }

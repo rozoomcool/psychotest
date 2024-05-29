@@ -75,9 +75,9 @@ class _TestScreenState extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CustomBottomNavigation(
-        onPressed: () => context.pop(),
-      ),
+      // bottomNavigationBar: CustomBottomNavigation(
+      //   onPressed: () => context.pop(),
+      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 31),
@@ -154,6 +154,8 @@ class _TestScreenState extends State<TestScreen> {
                               ),
                             )
                           : const SizedBox(),
+                      const SizedBox(height: 24,),
+                      CustomBottomNavigation(onPressed: () => context.pop(),)
                     ],
                   ),
                 )

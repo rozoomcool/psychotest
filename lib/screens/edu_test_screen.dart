@@ -12,6 +12,7 @@ import 'package:psyhotest/utils/constants.dart';
 import 'package:psyhotest/utils/ui_constants.dart';
 
 import 'components/custom_bottom_navigation.dart';
+import 'components/extended_test_dropdown_menu.dart';
 
 class EduTestScreen extends StatefulWidget {
   const EduTestScreen({super.key});
@@ -31,6 +32,7 @@ class _EduTestScreenState extends State<EduTestScreen> {
 
   void nextQuestion() {
     if(data.isNotEmpty && choice != null) {
+      addAnswer(choice == data.last.answer);
       setState(() {
         data = data.sublist(0, data.length - 1);
       });
@@ -66,66 +68,69 @@ class _EduTestScreenState extends State<EduTestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CustomBottomNavigation(
-        onPressed: () => context.pop(),
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 31),
           child: SingleChildScrollView(
-            child: data.isEmpty
-                ? const SizedBox()
-                : data.map((el) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const SizedBox(
-                          height: 32,
-                        ),
-                        Text(
-                          el.phrase,
-                          style: h3TextStyle,
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        ExtendedDropDownMenu(
-                          text: Row(
-                            children: [
-                              const Text("Тип лчиности",
-                                  overflow: TextOverflow.ellipsis)
-                            ],
-                          ),
-                          items: psychotypes,
-                          enabled: choice == null,
-                          defaultHeight: 0,
-                          onChange: (value) {
-                            if(choice == null) updateChoice(value);
-                          },
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        SecondaryExtendedButton(
-                            text: Text("Пояснение", style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor),),
-                            extendedChild: Container(
-                              padding: const EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: Colors.white
-                              ),
-                              child: Text(el.desc, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor)),
+            child: Column(
+              children: [
+                data.isEmpty
+                    ? const SizedBox()
+                    : data.map((el) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            const SizedBox(
+                              height: 32,
                             ),
-                            defaultHeight: 0),
-                        const SizedBox(height: 32,),
-                        ElevatedButton(onPressed: () {
-                          nextQuestion();
-                        }, child: const Text("Далее"))
-                      ],
-                    );
-                  }).last,
+                            Text(
+                              el.phrase,
+                              style: h3TextStyle,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ExtendedTestDropDownMenu(
+                              text: const Row(
+                                children: [
+                                  Text("Тип лчиности",
+                                      overflow: TextOverflow.ellipsis)
+                                ],
+                              ),
+                              answer: el.answer,
+                              items: psychotypes,
+                              enabled: choice == null,
+                              defaultHeight: 0,
+                              onChange: (value) {
+                                if(choice == null) updateChoice(value);
+                              },
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            SecondaryExtendedButton(
+                                text: Text("Пояснение", style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor),),
+                                extendedChild: Container(
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white
+                                  ),
+                                  child: Text(el.desc, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor)),
+                                ),
+                                defaultHeight: 0),
+                            const SizedBox(height: 32,),
+                            ElevatedButton(onPressed: () {
+                              nextQuestion();
+                            }, child: const Text("Далее"))
+                          ],
+                        );
+                      }).last,
+                CustomBottomNavigation(onPressed: () => context.pop(),)
+              ],
+            ),
           ),
         ),
       ),
