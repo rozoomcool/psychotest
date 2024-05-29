@@ -7,6 +7,7 @@ import '../../utils/constants.dart';
 class ExtendedTestDropDownMenu extends StatefulWidget {
   const ExtendedTestDropDownMenu(
       {super.key,
+        required this.id,
       required this.text,
       required this.items,
       required this.defaultHeight,
@@ -15,6 +16,7 @@ class ExtendedTestDropDownMenu extends StatefulWidget {
       this.answer,
       required this.onChange});
 
+  final int id;
   final Widget text;
   final String? answer;
   final Map<String, int> items;
@@ -42,7 +44,7 @@ class _ExtendedTestDropDownMenuState extends State<ExtendedTestDropDownMenu> {
   @override
   void didUpdateWidget(covariant ExtendedTestDropDownMenu oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.answer != oldWidget.answer) {
+    if (widget.id != oldWidget.id) {
       setState(() {
         isExtended = false;
         selected = null;

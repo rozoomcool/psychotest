@@ -31,12 +31,17 @@ class _EduTestScreenState extends State<EduTestScreen> {
   void addAnswer(bool value) => setState(() => answers.add(value));
 
   void nextQuestion() {
-    if(data.isNotEmpty && choice != null) {
-      addAnswer(choice == data.last.answer);
-      setState(() {
-        data = data.sublist(0, data.length - 1);
-      });
-      updateChoice(null);
+    if (data.isNotEmpty) {
+      if (choice != null) {
+        addAnswer(choice == data.last.answer);
+        setState(() {
+          data = data.sublist(0, data.length - 1);
+        });
+        updateChoice(null);
+      }
+    }
+    if (data.isEmpty) {
+      GoRouter.of(context).push('/eduresults', extra: answers);
     }
   }
 
@@ -93,6 +98,7 @@ class _EduTestScreenState extends State<EduTestScreen> {
                               height: 16,
                             ),
                             ExtendedTestDropDownMenu(
+                              id: el.id,
                               text: const Row(
                                 children: [
                                   Text("Тип лчиности",
@@ -104,31 +110,47 @@ class _EduTestScreenState extends State<EduTestScreen> {
                               enabled: choice == null,
                               defaultHeight: 0,
                               onChange: (value) {
-                                if(choice == null) updateChoice(value);
+                                if (choice == null) updateChoice(value);
                               },
                             ),
                             const SizedBox(
                               height: 16,
                             ),
                             SecondaryExtendedButton(
-                                text: Text("Пояснение", style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor),),
+                                text: Text(
+                                  "Пояснение",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: secondaryTextColor),
+                                ),
                                 extendedChild: Container(
                                   padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Colors.white
-                                  ),
-                                  child: Text(el.desc, style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor)),
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Colors.white),
+                                  child: Text(el.desc,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                              color: secondaryTextColor)),
                                 ),
                                 defaultHeight: 0),
-                            const SizedBox(height: 32,),
-                            ElevatedButton(onPressed: () {
-                              nextQuestion();
-                            }, child: const Text("Далее"))
+                            const SizedBox(
+                              height: 32,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  nextQuestion();
+                                },
+                                child: const Text("Далее"))
                           ],
                         );
                       }).last,
-                CustomBottomNavigation(onPressed: () => context.pop(),)
+                CustomBottomNavigation(
+                  onPressed: () => context.pop(),
+                )
               ],
             ),
           ),

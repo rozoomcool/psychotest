@@ -32,12 +32,17 @@ class _EduTestPhotoScreenState extends State<EduTestPhotoScreen> {
   void addAnswer(bool value) => setState(() => answers.add(value));
 
   void nextQuestion() {
-    if(data.isNotEmpty && choice != null) {
-      addAnswer(choice == data.last.answer);
-      setState(() {
-        data = data.sublist(0, data.length - 1);
-      });
-      updateChoice(null);
+    if (data.isNotEmpty) {
+      if (choice != null) {
+        addAnswer(choice == data.last.answer);
+        setState(() {
+          data = data.sublist(0, data.length - 1);
+        });
+        updateChoice(null);
+      }
+    }
+    if (data.isEmpty) {
+      GoRouter.of(context).push('/eduresults', extra: answers);
     }
   }
 
@@ -94,6 +99,7 @@ class _EduTestPhotoScreenState extends State<EduTestPhotoScreen> {
                         height: 16,
                       ),
                       ExtendedTestDropDownMenu(
+                        id: el.id,
                         text: const Row(
                           children: [
                             Text("Тип лчиности",

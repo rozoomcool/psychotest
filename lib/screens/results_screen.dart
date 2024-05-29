@@ -48,7 +48,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
 
   void some() {
     var data = GoRouterState.of(context).extra! as List<String>;
-    debugPrint(data.toString().toString());
     countDuplicates(data);
   }
 
