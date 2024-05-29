@@ -17,6 +17,7 @@ class ResultsScreen extends StatefulWidget {
 
 class _ResultsScreenState extends State<ResultsScreen> {
   Map<String, double>? answers;
+  List<String> data = List.empty(growable: true);
   final descriptionController = TextEditingController();
   bool _validate = true;
 
@@ -41,13 +42,18 @@ class _ResultsScreenState extends State<ResultsScreen> {
       double percentage = (value / totalCount) * 100;
       counts[key] = double.parse(percentage.toStringAsFixed(2));
     });
+
+    counts = Map.fromEntries(counts.entries.toList()..sort((a, b) => b.value.compareTo(a.value)));
+
     setState(() {
       answers = counts;
     });
   }
 
   void some() {
-    var data = GoRouterState.of(context).extra! as List<String>;
+    setState(() {
+      data = GoRouterState.of(context).extra! as List<String>;
+    });
     countDuplicates(data);
   }
 
@@ -56,7 +62,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
     some();
     return Scaffold(
       bottomNavigationBar: CustomBottomNavigation(
-        onPressed: () => context.pushReplacementNamed("/"),
+        onPressed: () => context.go("/"),
       ),
       body: SafeArea(
         child: Padding(
@@ -99,14 +105,21 @@ class _ResultsScreenState extends State<ResultsScreen> {
                 const SizedBox(height: 16,),
                 ElevatedButton(onPressed: () {
                   if(descriptionController.value.text.isNotEmpty) {
-                      List<MapEntry<String, double>> results = answers!.entries.toList()..sort((a, b) => a.value.compareTo(b.value));
-                      MapEntry<String, double>? first = results.isNotEmpty ? results.removeAt(0) : null;
-                      MapEntry<String, double>? second = results.isNotEmpty ? results.removeAt(0) : null;
+                      // List<MapEntry<String, double>> results = answers!.entries.toList()..sort((a, b) => a.value.compareTo(b.value));
+                      // MapEntry<String, double>? first = results.isNotEmpty ? results.removeAt(0) : null;
+                      // MapEntry<String, double>? second = results.isNotEmpty ? results.removeAt(0) : null;
+                      // TestResult result = TestResult(
+                      //     comment: descriptionController.value.text,
+                      //     results: Map.from({
+                      //       first?.key : first?.value,
+                      //       second?.key : second?.value
+                      //     })
+                      // );
                       TestResult result = TestResult(
                           comment: descriptionController.value.text,
                           results: Map.from({
-                            first?.key : first?.value,
-                            second?.key : second?.value
+                            answers?.entries.first.key : answers?.entries.first.value,
+                            answers?.entries.toList()[1].key : answers?.entries.toList()[1].value
                           })
                       );
                       GetIt.I<TestResultService>().addTestResult(result);

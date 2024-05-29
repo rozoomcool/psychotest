@@ -16,7 +16,7 @@ class _ResultSavedScreenState extends State<ResultSavedScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () => context.pushReplacementNamed("/"));
+    Future.delayed(const Duration(seconds: 2), () => context.go("/"));
   }
 
   @override

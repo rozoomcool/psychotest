@@ -23,6 +23,7 @@ class _TestScreenState extends State<TestScreen> {
   List<String> answers = List.empty(growable: true);
   bool isAnswered = false;
   String? currentAnswer;
+  final ScrollController _controller = ScrollController();
 
   void toggleAnsweredToTrue() => setState(() => isAnswered = true);
 
@@ -39,6 +40,14 @@ class _TestScreenState extends State<TestScreen> {
     loadQuestions();
   }
 
+  void _scrollDown() {
+    _controller.animateTo(
+      _controller.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
   void loadQuestions() async {
     String jsonString = await rootBundle.loadString("assets/test.json");
     List<dynamic> data =
@@ -50,7 +59,6 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   void nextQuestion() {
-    debugPrint(answers.toString());
     if (questions.isNotEmpty) {
       setState(() {
         question = questions.removeAt(0);
@@ -83,9 +91,12 @@ class _TestScreenState extends State<TestScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 31),
           child: question != null
               ? SingleChildScrollView(
+                  controller: _controller,
                   child: Column(
                     children: [
-                      const SizedBox(height: 36,),
+                      const SizedBox(
+                        height: 36,
+                      ),
                       Text(question!.question!, style: h2TextStyle),
                       const SizedBox(
                         height: 32,
@@ -100,6 +111,7 @@ class _TestScreenState extends State<TestScreen> {
                             var q = question!.answers!
                                 .firstWhere((v) => v.pattern == value);
                             updateCurrentAnswer(q.psychotype!);
+                            _scrollDown();
                           }),
                       const SizedBox(
                         height: 12,
@@ -136,7 +148,9 @@ class _TestScreenState extends State<TestScreen> {
                                           ?.copyWith(color: secondaryTextColor),
                                     ),
                                   ),
-                                  const SizedBox(height: 36,)
+                                  const SizedBox(
+                                    height: 36,
+                                  )
                                 ],
                               )
                             : const SizedBox(),
@@ -154,8 +168,12 @@ class _TestScreenState extends State<TestScreen> {
                               ),
                             )
                           : const SizedBox(),
-                      const SizedBox(height: 24,),
-                      CustomBottomNavigation(onPressed: () => context.pop(),)
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      CustomBottomNavigation(
+                        onPressed: () => context.pop(),
+                      )
                     ],
                   ),
                 )
