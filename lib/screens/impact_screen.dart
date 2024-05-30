@@ -123,7 +123,7 @@ class _ImpactScreenState extends State<ImpactScreen> {
                   onChange: (value) => setState(() => updateChapter(value)),
                 ),
                 const SizedBox(height: 17,),
-                Text(text != "" ? "Совет" : text),
+                Text(text != "" ? "Совет" : text, style: hintTextStyle,),
                 const SizedBox(height: 8,),
                 text != "" ? Container(
                     decoration: BoxDecoration(

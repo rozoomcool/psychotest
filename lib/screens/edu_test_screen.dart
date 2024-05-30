@@ -98,10 +98,10 @@ class _EduTestScreenState extends State<EduTestScreen> {
                               height: 16,
                             ),
                             ExtendedTestDropDownMenu(
-                              id: el.id,
+                              key: Key(el.id.toString()),
                               text: const Row(
                                 children: [
-                                  Text("Тип лчиности",
+                                  Text("Тип личности",
                                       overflow: TextOverflow.ellipsis)
                                 ],
                               ),
@@ -111,10 +111,10 @@ class _EduTestScreenState extends State<EduTestScreen> {
                               defaultHeight: 0,
                               onChange: (value) {
                                 if (choice == null) updateChoice(value);
-                              },
+                              }, id: el.id,
                             ),
                             const SizedBox(
-                              height: 16,
+                              height: 0,
                             ),
                             SecondaryExtendedButton(
                                 text: Text(
@@ -125,6 +125,7 @@ class _EduTestScreenState extends State<EduTestScreen> {
                                       ?.copyWith(color: secondaryTextColor),
                                 ),
                                 extendedChild: Container(
+                                  key: Key(el.id.toString()),
                                   padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
@@ -148,6 +149,7 @@ class _EduTestScreenState extends State<EduTestScreen> {
                           ],
                         );
                       }).last,
+                const SizedBox(height: 16,),
                 CustomBottomNavigation(
                   onPressed: () => context.pop(),
                 )

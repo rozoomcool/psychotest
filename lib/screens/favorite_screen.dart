@@ -32,9 +32,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CustomBottomNavigation(
-        onPressed: () => context.pop(),
-      ),
+      // bottomNavigationBar: CustomBottomNavigation(
+      //   onPressed: () => context.pop(),
+      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 31),
@@ -128,6 +128,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         ),
                       )
                     : const SizedBox(),
+                const SizedBox(height: 16,),
+                CustomBottomNavigation(
+                  onPressed: () => context.pop(),
+                ),
                 const SizedBox(height: 24,),
               ],
             ),

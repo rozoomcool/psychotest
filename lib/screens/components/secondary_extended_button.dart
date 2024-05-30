@@ -5,7 +5,11 @@ import '../../utils/ui_constants.dart';
 
 class SecondaryExtendedButton extends StatefulWidget {
   const SecondaryExtendedButton(
-      {super.key, required this.text, required this.extendedChild, required this.defaultHeight, this.margin = 8});
+      {super.key,
+      required this.text,
+      required this.extendedChild,
+      required this.defaultHeight,
+      this.margin = 8});
 
   final Widget text;
   final Widget extendedChild;
@@ -13,13 +17,24 @@ class SecondaryExtendedButton extends StatefulWidget {
   final double margin;
 
   @override
-  State<SecondaryExtendedButton> createState() => _SecondaryExtendedButtonState();
+  State<SecondaryExtendedButton> createState() =>
+      _SecondaryExtendedButtonState();
 }
 
 class _SecondaryExtendedButtonState extends State<SecondaryExtendedButton> {
   bool isExtended = false;
 
   void toggleExtend() => setState(() => isExtended = !isExtended);
+
+  @override
+  void didUpdateWidget(covariant SecondaryExtendedButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.extendedChild.key != oldWidget.extendedChild.key) {
+      setState(() {
+        isExtended = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +65,11 @@ class _SecondaryExtendedButtonState extends State<SecondaryExtendedButton> {
         isExtended
             ? widget.extendedChild
             : SizedBox(
-          height: widget.defaultHeight,
-        ),
-        SizedBox(height: widget.margin,)
+                height: widget.defaultHeight,
+              ),
+        SizedBox(
+          height: widget.margin,
+        )
       ],
     );
   }

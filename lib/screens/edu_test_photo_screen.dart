@@ -115,11 +115,12 @@ class _EduTestPhotoScreenState extends State<EduTestPhotoScreen> {
                         },
                       ),
                       const SizedBox(
-                        height: 16,
+                        height: 0,
                       ),
                       SecondaryExtendedButton(
-                          text: Text("Пояснение", style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor),),
+                          text: Text("Картинка", style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor),),
                           extendedChild: Container(
+                            key: Key(el.id.toString()),
                             width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -140,6 +141,7 @@ class _EduTestPhotoScreenState extends State<EduTestPhotoScreen> {
                     ],
                   );
                 }).last,
+                const SizedBox(height: 16,),
                 CustomBottomNavigation(onPressed: () => context.pop(),)
               ],
             ),

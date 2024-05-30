@@ -4,6 +4,9 @@
     <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <!--        <item name="android:windowIsTranslucent">true</item>-->
         <item name="android:windowBackground">@color/launcher_background_color</item>
+        <item name="android:colorBackground">@color/launcher_background_color</item>
+        <item name="android:windowSplashScreenBackground">@color/launcher_background_color</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/launcher_background_color</item>
         <!--        <item name="android:windowContentOverlay">@null</item>-->
         <!--        <item name="android:windowNoTitle">true</item>-->
         <!--        <item name="android:windowIsFloating">true</item>-->
