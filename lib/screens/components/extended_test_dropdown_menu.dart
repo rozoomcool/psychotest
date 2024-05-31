@@ -44,7 +44,7 @@ class _ExtendedTestDropDownMenuState extends State<ExtendedTestDropDownMenu> {
   @override
   void didUpdateWidget(covariant ExtendedTestDropDownMenu oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.key != oldWidget.key) {
+    if ((widget.key != oldWidget.key) || (widget.id != oldWidget.id)) {
       setState(() {
         isExtended = false;
         selected = null;

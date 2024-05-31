@@ -14,6 +14,13 @@ class TestResultService {
     return data;
   }
 
+  void deleteResult(String id) {
+    List<TestResult> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]").map<TestResult>((el) => TestResult.fromJson(el)).toList();
+    data.removeWhere((el) => el.id == id);
+
+    _sharedPreferences.setString(resultsPrefName, json.encode(data));
+  }
+
   void addTestResult(TestResult testResult) {
     List<TestResult> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]").map<TestResult>((el) => TestResult.fromJson(el)).toList();
     data.add(testResult);

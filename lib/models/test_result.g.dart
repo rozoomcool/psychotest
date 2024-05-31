@@ -8,6 +8,7 @@ part of 'test_result.dart';
 
 _$TestResultImpl _$$TestResultImplFromJson(Map<String, dynamic> json) =>
     _$TestResultImpl(
+      id: json['id'] as String,
       comment: json['comment'] as String,
       results: (json['results'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, (e as num).toDouble()),
@@ -16,6 +17,7 @@ _$TestResultImpl _$$TestResultImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$TestResultImplToJson(_$TestResultImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'comment': instance.comment,
       'results': instance.results,
     };

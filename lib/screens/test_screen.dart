@@ -131,6 +131,7 @@ class _TestScreenState extends State<TestScreen> {
                                     height: 8,
                                   ),
                                   Container(
+                                    width: double.infinity,
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius:
@@ -147,9 +148,6 @@ class _TestScreenState extends State<TestScreen> {
                                           .bodyLarge
                                           ?.copyWith(color: secondaryTextColor),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 36,
                                   )
                                 ],
                               )

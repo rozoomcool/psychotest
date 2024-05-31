@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:psyhotest/models/test_result.dart';
 import 'package:psyhotest/screens/components/extended_button.dart';
+import 'package:psyhotest/screens/components/favorite_button.dart';
 import 'package:psyhotest/service/test_result_service.dart';
 import 'package:psyhotest/utils/constants.dart';
 import 'package:psyhotest/utils/ui_constants.dart';
@@ -61,7 +63,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, i) {
-                            return SecondaryExtendedButton(
+                            return FavoriteButton(
+                              onTrashPressed: () {
+                                GetIt.I<TestResultService>().deleteResult(
+                                    results?[i].id ?? "");
+                                loadResults();
+                              },
                               text: Text(results![i].comment, overflow: TextOverflow.ellipsis),
                               extendedChild: Container(
                                 decoration: BoxDecoration(
@@ -82,6 +89,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   results![i]
@@ -96,15 +106,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                 const SizedBox(width: 4,),
                                                 CircleAvatar(
                                                   radius: 6,
-                                                  backgroundColor: Color(psychotypes
+                                                  backgroundColor: Color(psychotypes[results?[i]
+                                                      .results
                                                       .entries
-                                                      .where((k) =>
-                                                  k.key ==
-                                                      results![i]
-                                                          .results
-                                                          .entries
-                                                          .toList()[index]
-                                                          .key).first.value),
+                                                      .toList()[index]
+                                                      .key] ?? 0xFFFFFFFF),
                                                 )
                                               ],
                                             ),

@@ -62,7 +62,8 @@ class _EduTestPhotoScreenState extends State<EduTestPhotoScreen> {
     });
   }
 
-  List<EduTestPhotoModel> getRandomElements(int count, List<EduTestPhotoModel> data) {
+  List<EduTestPhotoModel> getRandomElements(
+      int count, List<EduTestPhotoModel> data) {
     List<int> rand = List.generate(count, (i) => Random().nextInt(data.length));
     List<EduTestPhotoModel> res = List.empty(growable: true);
     for (var val in rand) {
@@ -83,66 +84,92 @@ class _EduTestPhotoScreenState extends State<EduTestPhotoScreen> {
                 data.isEmpty
                     ? const SizedBox()
                     : data.map((el) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      Text(
-                        el.desc,
-                        style: h3TextStyle,
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      ExtendedTestDropDownMenu(
-                        id: el.id,
-                        text: const Row(
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            Text("Тип лчиности",
-                                overflow: TextOverflow.ellipsis)
-                          ],
-                        ),
-                        answer: el.answer,
-                        items: psychotypes,
-                        enabled: choice == null,
-                        defaultHeight: 0,
-                        onChange: (value) {
-                          if(choice == null) updateChoice(value);
-                        },
-                      ),
-                      const SizedBox(
-                        height: 0,
-                      ),
-                      SecondaryExtendedButton(
-                          text: Text("Картинка", style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: secondaryTextColor),),
-                          extendedChild: Container(
-                            key: Key(el.id.toString()),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: primaryColor, width: 1),
-                              image: DecorationImage(
-                                  image: AssetImage("assets/img/${el.id}.jpg"),
-                                fit: BoxFit.contain
-                              )
+                            const SizedBox(
+                              height: 32,
                             ),
-                            child: Opacity(opacity: 0,
-                            child: Image.asset("assets/img/${el.id}.jpg")),
-                          ),
-                          defaultHeight: 0),
-                      const SizedBox(height: 32,),
-                      ElevatedButton(onPressed: () {
-                        nextQuestion();
-                      }, child: const Text("Далее"))
-                    ],
-                  );
-                }).last,
-                const SizedBox(height: 16,),
-                CustomBottomNavigation(onPressed: () => context.pop(),)
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border:
+                                      Border.all(color: primaryColor, width: 1),
+                                  image: DecorationImage(
+                                      image:
+                                          AssetImage("assets/img/${el.id}.jpg"),
+                                      fit: BoxFit.contain)),
+                              child: Opacity(
+                                  opacity: 0,
+                                  child:
+                                      Image.asset("assets/img/${el.id}.jpg")),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ExtendedTestDropDownMenu(
+                              id: el.id,
+                              text: const Row(
+                                children: [
+                                  Text("Тип лчиности",
+                                      overflow: TextOverflow.ellipsis)
+                                ],
+                              ),
+                              answer: el.answer,
+                              items: psychotypes,
+                              enabled: choice == null,
+                              defaultHeight: 0,
+                              onChange: (value) {
+                                if (choice == null) updateChoice(value);
+                              },
+                            ),
+                            const SizedBox(
+                              height: 0,
+                            ),
+                            SecondaryExtendedButton(
+                                text: Text(
+                                  "Пояснение",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: secondaryTextColor),
+                                ),
+                                extendedChild: Container(
+                                  key: Key(el.id.toString()),
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12)),
+                                  width: double.infinity,
+                                  child: Text(
+                                    el.desc,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.copyWith(color: secondaryTextColor),
+                                  ),
+                                ),
+                                defaultHeight: 0),
+                            const SizedBox(
+                              height: 32,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  nextQuestion();
+                                },
+                                child: const Text("Далее"))
+                          ],
+                        );
+                      }).last,
+                const SizedBox(
+                  height: 16,
+                ),
+                CustomBottomNavigation(
+                  onPressed: () => context.pop(),
+                )
               ],
             ),
           ),
