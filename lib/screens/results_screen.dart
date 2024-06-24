@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:psyhotest/models/test_result.dart';
@@ -7,6 +10,7 @@ import 'package:psyhotest/service/test_result_service.dart';
 import 'package:psyhotest/utils/constants.dart';
 import 'package:uuid/uuid.dart';
 
+import '../models/question.dart';
 import '../utils/ui_constants.dart';
 
 class ResultsScreen extends StatefulWidget {
@@ -18,13 +22,14 @@ class ResultsScreen extends StatefulWidget {
 
 class _ResultsScreenState extends State<ResultsScreen> {
   Map<String, double>? answers;
-  List<String> data = List.empty(growable: true);
+  Map<String, String> data = {};
   final descriptionController = TextEditingController();
   bool _validate = true;
 
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(milliseconds: 500), () => some());
   }
 
   void notValidate() => setState(() => _validate = false);
@@ -53,16 +58,41 @@ class _ResultsScreenState extends State<ResultsScreen> {
     });
   }
 
-  void some() {
+  void some() async {
     setState(() {
-      data = GoRouterState.of(context).extra! as List<String>;
+      data = GoRouterState.of(context).extra! as Map<String, String>;
     });
-    countDuplicates(data);
+    performData();
+  }
+
+  void performData() async {
+    List<String> patterns = data.values.toList();
+    List<Question> questions = await loadQuestions();
+
+    debugPrint(questions.length.toString());
+    List<String> results = List.empty(growable: true);
+    for (int i = 0; i < questions.length; i++) {
+      var ans = questions[i].answers!;
+      for (int j = 0; j < ans.length; j++) {
+        if (patterns.contains(ans[j].pattern)) {
+          results.add(ans[j].psychotype!);
+          break;
+        }
+      }
+    }
+    debugPrint(results.toString());
+    countDuplicates(results);
+  }
+
+  Future<List<Question>> loadQuestions() async {
+    String? js = await rootBundle.loadString("assets/test.json");
+    List<dynamic> d = (json.decode(js ?? "") as Map<String, dynamic>)["questions"];
+    return d.map<Question>((el) => Question.fromJson(el)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    some();
+
     return Scaffold(
       bottomNavigationBar: CustomBottomNavigation(
         onPressed: () => context.go("/"),
@@ -131,7 +161,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                         //     })
                         // );
 
-                        if(answers == null || answers!.isEmpty) {
+                        if (answers == null || answers!.isEmpty) {
                           context.go("/");
                         }
                         Map<String, double> resMap = Map.from({
@@ -147,7 +177,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
                         TestResult result = TestResult(
                             id: const Uuid().v1(),
                             comment: descriptionController.value.text,
-                            results: resMap);
+                            results: resMap,
+                            answers: data);
                         GetIt.I<TestResultService>().addTestResult(result);
                         context.go("/resultsplach");
                       } else {

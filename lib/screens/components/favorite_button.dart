@@ -10,13 +10,14 @@ class FavoriteButton extends StatefulWidget {
       required this.extendedChild,
       required this.defaultHeight,
       required this.onTrashPressed,
-      this.margin = 8});
+      this.margin = 8, required this.onEditPressed});
 
   final Widget text;
   final Widget extendedChild;
   final double defaultHeight;
   final double margin;
   final Function onTrashPressed;
+  final Function onEditPressed;
 
   @override
   State<FavoriteButton> createState() => _FavoriteButtonState();
@@ -69,6 +70,23 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                         ],
                       )),
                 ),
+                const SizedBox(width: 1,),
+                IconButton.filledTonal(
+                    style: IconButton.styleFrom(
+                        fixedSize: const Size(44, 44),
+                        backgroundColor: secondaryTextColor,
+                        foregroundColor: secondaryTextColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12))),
+                    onPressed: () {
+                      widget.onEditPressed();
+                    },
+                    icon: Image.asset(
+                      "assets/edit.png",
+                      color: secondaryColor,
+                      width: 24,
+                      height: 24,
+                    )),
                 IconButton.filledTonal(
                     style: IconButton.styleFrom(
                         fixedSize: const Size(44, 44),
@@ -84,7 +102,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                       color: secondaryColor,
                       width: 24,
                       height: 24,
-                    ))
+                    )),
               ],
             )),
         isExtended

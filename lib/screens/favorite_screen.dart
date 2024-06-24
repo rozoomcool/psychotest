@@ -28,8 +28,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     loadResults();
   }
 
-  void loadResults() =>
-      setState(() => results = GetIt.I<TestResultService>().getTestResults());
+  void loadResults() {
+    setState(() => results = GetIt.I<TestResultService>().getTestResults());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                               children: [
                                                 Text(
                                                   results![i]
-                                                      .results
+                                                      .answers
                                                       .entries
                                                       .toList()[index]
                                                       .key,
@@ -107,7 +108,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                 CircleAvatar(
                                                   radius: 6,
                                                   backgroundColor: Color(psychotypes[results?[i]
-                                                      .results
+                                                      .answers
                                                       .entries
                                                       .toList()[index]
                                                       .key] ?? 0xFFFFFFFF),
@@ -128,7 +129,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         ),
                                     itemCount: results![i].results.length),
                               ),
-                              defaultHeight: 0,
+                              defaultHeight: 0, onEditPressed: () {
+                              GoRouter.of(context).push('/test', extra: results![i]);
+                            },
                             );
                           },
                         ),

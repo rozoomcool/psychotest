@@ -11,10 +11,14 @@ class TestDropDownMenu extends StatefulWidget {
       required this.items,
       required this.defaultHeight,
       this.margin = 8,
-      required this.onChange});
+      required this.onChange,
+      required this.textMaxLines,
+      required this.isMarked});
 
   final String text;
+  final int textMaxLines;
   final List<String> items;
+  final bool Function(String value) isMarked;
   final double defaultHeight;
   final double margin;
   final Function(String) onChange;
@@ -28,6 +32,12 @@ class _TestDropDownMenuState extends State<TestDropDownMenu> {
   String? selected = null;
 
   void toggleExtend() => setState(() => isExtended = !isExtended);
+
+  void updateSelected(String? value) {
+    setState(() {
+      selected = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +63,9 @@ class _TestDropDownMenuState extends State<TestDropDownMenu> {
                     SizedBox(
                         width: 200,
                         child: Text(
-                          selected == null || !widget.items.contains(selected) ? widget.text : selected!,
+                          selected == null || !widget.items.contains(selected)
+                              ? widget.text
+                              : selected!,
                           overflow: TextOverflow.ellipsis,
                         )),
                     Icon(
@@ -77,26 +89,41 @@ class _TestDropDownMenuState extends State<TestDropDownMenu> {
                           .map<Widget>(
                             (entry) => InkWell(
                               onTap: () {
-                                setState(() {
-                                  selected = entry;
-                                });
+                                debugPrint("ENTRY:: $entry");
+                                updateSelected(entry);
                                 toggleExtend();
                                 widget.onChange(selected!);
                               },
                               child: SizedBox(
-                                  height: 44,
+                                  height: 22 * widget.textMaxLines.toDouble(),
                                   width: double.infinity,
-                                  child: Text(
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    entry,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            letterSpacing: 0.16,
-                                            color: secondaryTextColor),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        flex: 5,
+                                        child: Text(
+                                          maxLines: widget.textMaxLines,
+                                          overflow: TextOverflow.ellipsis,
+                                          entry,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  letterSpacing: 0.16,
+                                                  color: secondaryTextColor),
+                                        ),
+                                      ),
+                                      Expanded(
+                                          flex: 1,
+                                          child:
+                                              widget.isMarked(entry) ? Image.asset("assets/check.png") : const SizedBox())
+                                    ],
                                   )),
                             ),
                           )

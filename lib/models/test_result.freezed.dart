@@ -23,6 +23,7 @@ mixin _$TestResult {
   String get id => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
   Map<String, double> get results => throw _privateConstructorUsedError;
+  Map<String, String> get answers => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,11 @@ abstract class $TestResultCopyWith<$Res> {
           TestResult value, $Res Function(TestResult) then) =
       _$TestResultCopyWithImpl<$Res, TestResult>;
   @useResult
-  $Res call({String id, String comment, Map<String, double> results});
+  $Res call(
+      {String id,
+      String comment,
+      Map<String, double> results,
+      Map<String, String> answers});
 }
 
 /// @nodoc
@@ -55,6 +60,7 @@ class _$TestResultCopyWithImpl<$Res, $Val extends TestResult>
     Object? id = null,
     Object? comment = null,
     Object? results = null,
+    Object? answers = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -69,6 +75,10 @@ class _$TestResultCopyWithImpl<$Res, $Val extends TestResult>
           ? _value.results
           : results // ignore: cast_nullable_to_non_nullable
               as Map<String, double>,
+      answers: null == answers
+          ? _value.answers
+          : answers // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ) as $Val);
   }
 }
@@ -81,7 +91,11 @@ abstract class _$$TestResultImplCopyWith<$Res>
       __$$TestResultImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String comment, Map<String, double> results});
+  $Res call(
+      {String id,
+      String comment,
+      Map<String, double> results,
+      Map<String, String> answers});
 }
 
 /// @nodoc
@@ -98,6 +112,7 @@ class __$$TestResultImplCopyWithImpl<$Res>
     Object? id = null,
     Object? comment = null,
     Object? results = null,
+    Object? answers = null,
   }) {
     return _then(_$TestResultImpl(
       id: null == id
@@ -112,6 +127,10 @@ class __$$TestResultImplCopyWithImpl<$Res>
           ? _value._results
           : results // ignore: cast_nullable_to_non_nullable
               as Map<String, double>,
+      answers: null == answers
+          ? _value._answers
+          : answers // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }
@@ -122,8 +141,10 @@ class _$TestResultImpl implements _TestResult {
   const _$TestResultImpl(
       {required this.id,
       required this.comment,
-      required final Map<String, double> results})
-      : _results = results;
+      required final Map<String, double> results,
+      required final Map<String, String> answers})
+      : _results = results,
+        _answers = answers;
 
   factory _$TestResultImpl.fromJson(Map<String, dynamic> json) =>
       _$$TestResultImplFromJson(json);
@@ -140,9 +161,17 @@ class _$TestResultImpl implements _TestResult {
     return EqualUnmodifiableMapView(_results);
   }
 
+  final Map<String, String> _answers;
+  @override
+  Map<String, String> get answers {
+    if (_answers is EqualUnmodifiableMapView) return _answers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_answers);
+  }
+
   @override
   String toString() {
-    return 'TestResult(id: $id, comment: $comment, results: $results)';
+    return 'TestResult(id: $id, comment: $comment, results: $results, answers: $answers)';
   }
 
   @override
@@ -152,13 +181,18 @@ class _$TestResultImpl implements _TestResult {
             other is _$TestResultImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.comment, comment) || other.comment == comment) &&
-            const DeepCollectionEquality().equals(other._results, _results));
+            const DeepCollectionEquality().equals(other._results, _results) &&
+            const DeepCollectionEquality().equals(other._answers, _answers));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, comment, const DeepCollectionEquality().hash(_results));
+      runtimeType,
+      id,
+      comment,
+      const DeepCollectionEquality().hash(_results),
+      const DeepCollectionEquality().hash(_answers));
 
   @JsonKey(ignore: true)
   @override
@@ -178,7 +212,8 @@ abstract class _TestResult implements TestResult {
   const factory _TestResult(
       {required final String id,
       required final String comment,
-      required final Map<String, double> results}) = _$TestResultImpl;
+      required final Map<String, double> results,
+      required final Map<String, String> answers}) = _$TestResultImpl;
 
   factory _TestResult.fromJson(Map<String, dynamic> json) =
       _$TestResultImpl.fromJson;
@@ -189,6 +224,8 @@ abstract class _TestResult implements TestResult {
   String get comment;
   @override
   Map<String, double> get results;
+  @override
+  Map<String, String> get answers;
   @override
   @JsonKey(ignore: true)
   _$$TestResultImplCopyWith<_$TestResultImpl> get copyWith =>

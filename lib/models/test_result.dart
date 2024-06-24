@@ -8,7 +8,8 @@ class TestResult with _$TestResult {
   const factory TestResult({
     required String id,
     required String comment,
-    required Map<String, double> results
+    required Map<String, double> results,
+    required Map<String, String> answers,
 }) = _TestResult;
 
   factory TestResult.fromJson(Map<String, Object?> json) => _$TestResultFromJson(json);
