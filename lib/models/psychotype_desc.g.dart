@@ -9,7 +9,9 @@ part of 'psychotype_desc.dart';
 _$PsychotypeDescImpl _$$PsychotypeDescImplFromJson(Map<String, dynamic> json) =>
     _$PsychotypeDescImpl(
       psychotype: json['psychotype'] as String,
-      values: PsychotypeValue.fromJson(json['values'] as Map<String, dynamic>),
+      values: (json['values'] as List<dynamic>)
+          .map((e) => PsychotypeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$PsychotypeDescImplToJson(

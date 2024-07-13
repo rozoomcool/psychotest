@@ -57,9 +57,12 @@ class _SecondaryExtendedButtonState extends State<SecondaryExtendedButton> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    widget.text,
-                    Icon(
-                        isExtended ? Iconsax.arrow_up_2 : Iconsax.arrow_down_14)
+                    Expanded(flex: 8, child: widget.text),
+                    Expanded(
+                      flex: 1,
+                      child: Icon(
+                          isExtended ? Iconsax.arrow_up_2 : Iconsax.arrow_down_14),
+                    )
                   ],
                 ))),
         isExtended

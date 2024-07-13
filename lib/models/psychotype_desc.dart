@@ -8,7 +8,7 @@ part 'psychotype_desc.g.dart';
 class PsychotypeDesc with _$PsychotypeDesc {
   const factory PsychotypeDesc({
     required String psychotype,
-    required PsychotypeValue values
+    required List<PsychotypeValue> values
   }) = _PsychotypeDesc;
 
   factory PsychotypeDesc.fromJson(Map<String, Object?> json) => _$PsychotypeDescFromJson(json);

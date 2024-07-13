@@ -21,7 +21,7 @@ PsychotypeDesc _$PsychotypeDescFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PsychotypeDesc {
   String get psychotype => throw _privateConstructorUsedError;
-  PsychotypeValue get values => throw _privateConstructorUsedError;
+  List<PsychotypeValue> get values => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,9 +35,7 @@ abstract class $PsychotypeDescCopyWith<$Res> {
           PsychotypeDesc value, $Res Function(PsychotypeDesc) then) =
       _$PsychotypeDescCopyWithImpl<$Res, PsychotypeDesc>;
   @useResult
-  $Res call({String psychotype, PsychotypeValue values});
-
-  $PsychotypeValueCopyWith<$Res> get values;
+  $Res call({String psychotype, List<PsychotypeValue> values});
 }
 
 /// @nodoc
@@ -64,16 +62,8 @@ class _$PsychotypeDescCopyWithImpl<$Res, $Val extends PsychotypeDesc>
       values: null == values
           ? _value.values
           : values // ignore: cast_nullable_to_non_nullable
-              as PsychotypeValue,
+              as List<PsychotypeValue>,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PsychotypeValueCopyWith<$Res> get values {
-    return $PsychotypeValueCopyWith<$Res>(_value.values, (value) {
-      return _then(_value.copyWith(values: value) as $Val);
-    });
   }
 }
 
@@ -85,10 +75,7 @@ abstract class _$$PsychotypeDescImplCopyWith<$Res>
       __$$PsychotypeDescImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String psychotype, PsychotypeValue values});
-
-  @override
-  $PsychotypeValueCopyWith<$Res> get values;
+  $Res call({String psychotype, List<PsychotypeValue> values});
 }
 
 /// @nodoc
@@ -111,9 +98,9 @@ class __$$PsychotypeDescImplCopyWithImpl<$Res>
           : psychotype // ignore: cast_nullable_to_non_nullable
               as String,
       values: null == values
-          ? _value.values
+          ? _value._values
           : values // ignore: cast_nullable_to_non_nullable
-              as PsychotypeValue,
+              as List<PsychotypeValue>,
     ));
   }
 }
@@ -121,15 +108,22 @@ class __$$PsychotypeDescImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PsychotypeDescImpl implements _PsychotypeDesc {
-  const _$PsychotypeDescImpl({required this.psychotype, required this.values});
+  const _$PsychotypeDescImpl(
+      {required this.psychotype, required final List<PsychotypeValue> values})
+      : _values = values;
 
   factory _$PsychotypeDescImpl.fromJson(Map<String, dynamic> json) =>
       _$$PsychotypeDescImplFromJson(json);
 
   @override
   final String psychotype;
+  final List<PsychotypeValue> _values;
   @override
-  final PsychotypeValue values;
+  List<PsychotypeValue> get values {
+    if (_values is EqualUnmodifiableListView) return _values;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_values);
+  }
 
   @override
   String toString() {
@@ -143,12 +137,13 @@ class _$PsychotypeDescImpl implements _PsychotypeDesc {
             other is _$PsychotypeDescImpl &&
             (identical(other.psychotype, psychotype) ||
                 other.psychotype == psychotype) &&
-            (identical(other.values, values) || other.values == values));
+            const DeepCollectionEquality().equals(other._values, _values));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, psychotype, values);
+  int get hashCode => Object.hash(
+      runtimeType, psychotype, const DeepCollectionEquality().hash(_values));
 
   @JsonKey(ignore: true)
   @override
@@ -168,7 +163,7 @@ class _$PsychotypeDescImpl implements _PsychotypeDesc {
 abstract class _PsychotypeDesc implements PsychotypeDesc {
   const factory _PsychotypeDesc(
       {required final String psychotype,
-      required final PsychotypeValue values}) = _$PsychotypeDescImpl;
+      required final List<PsychotypeValue> values}) = _$PsychotypeDescImpl;
 
   factory _PsychotypeDesc.fromJson(Map<String, dynamic> json) =
       _$PsychotypeDescImpl.fromJson;
@@ -176,7 +171,7 @@ abstract class _PsychotypeDesc implements PsychotypeDesc {
   @override
   String get psychotype;
   @override
-  PsychotypeValue get values;
+  List<PsychotypeValue> get values;
   @override
   @JsonKey(ignore: true)
   _$$PsychotypeDescImplCopyWith<_$PsychotypeDescImpl> get copyWith =>
