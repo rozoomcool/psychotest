@@ -52,16 +52,26 @@ class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    SizedBox(
-                        width: 200,
-                        child: selected == null
-                            ? widget.text
-                            : Text(
-                                selected!,
-                                overflow: TextOverflow.ellipsis,
-                              )),
-                    Icon(
-                        isExtended ? Iconsax.arrow_up_2 : Iconsax.arrow_down_14)
+                    Expanded(
+                      flex: 8,
+                      child: selected == null
+                          ? widget.text
+                          : Text(
+                              selected!,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(),
+                          Icon(
+                              isExtended ? Iconsax.arrow_up_2 : Iconsax.arrow_down_14),
+                        ],
+                      ),
+                    )
                   ],
                 ))),
         AnimatedOpacity(
@@ -99,8 +109,8 @@ class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      SizedBox(
-                                        width: 200,
+                                      Expanded(
+                                        flex: 7,
                                         child: Text(
                                           overflow: TextOverflow.ellipsis,
                                           entry.key,
@@ -113,9 +123,18 @@ class _ExtendedDropDownMenuState extends State<ExtendedDropDownMenu> {
                                                   color: secondaryTextColor),
                                         ),
                                       ),
-                                      CircleAvatar(
-                                        backgroundColor: Color(entry.value),
-                                        radius: 6,
+                                      Expanded(
+                                        flex: 1,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const SizedBox(),
+                                            CircleAvatar(
+                                              backgroundColor: Color(entry.value),
+                                              radius: 6,
+                                            ),
+                                          ],
+                                        ),
                                       )
                                     ],
                                   )),

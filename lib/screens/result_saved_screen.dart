@@ -22,21 +22,23 @@ class _ResultSavedScreenState extends State<ResultSavedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 120,
-            height: 120,
-            decoration: const BoxDecoration(
-                image: DecorationImage(image: AssetImage("assets/checkmark.png"))
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 120,
+              height: 120,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(image: AssetImage("assets/checkmark.png"))
+              ),
             ),
-          ),
-          const SizedBox(height: 16,),
-          const Text("Результат сохранен", style: hTextStyle, textAlign: TextAlign.center,),
-        ],
+            const SizedBox(height: 16,),
+            const Text("Результат сохранен", style: hTextStyle, textAlign: TextAlign.center,),
+          ],
+        ),
       ),
     );
   }

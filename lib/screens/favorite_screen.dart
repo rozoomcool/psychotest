@@ -82,7 +82,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemBuilder: (context, index) => Row(
+                                    itemBuilder: (context, index) {
+                                      return Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -96,7 +97,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                               children: [
                                                 Text(
                                                   results![i]
-                                                      .answers
+                                                      .results
                                                       .entries
                                                       .toList()[index]
                                                       .key,
@@ -122,7 +123,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                   .bodyLarge,
                                             )
                                           ],
-                                        ),
+                                        );
+                                    },
                                     separatorBuilder: (context, index) =>
                                         const Divider(
                                           height: 44,
