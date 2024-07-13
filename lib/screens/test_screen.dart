@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:psyhotest/models/question.dart';
+import 'package:psyhotest/models/save_result_entity.dart';
 import 'package:psyhotest/screens/components/custom_bottom_navigation.dart';
 import 'package:psyhotest/screens/components/test_drop_down_menu.dart';
 
@@ -144,6 +145,12 @@ class _TestScreenState extends State<TestScreen> {
     return counts;
   }
 
+  void getAllAnswers() {
+    List<Answers> ansList = [];
+    questions.forEach((v) => ansList.addAll(v.answers!));
+    ansList;
+  }
+
   @override
   Widget build(BuildContext context) {
     some();
@@ -235,37 +242,48 @@ class _TestScreenState extends State<TestScreen> {
                 const SizedBox(
                   height: 24,
                 ),
-                oldTestResult == null
-                    ? ElevatedButton(
-                        onPressed: () => GoRouter.of(context)
-                            .push('/results', extra: answers),
-                        child: const Text("Добавить в избранное"))
-                    : ElevatedButton(
+                // oldTestResult == null
+                //     ?
+                ElevatedButton(
                         onPressed: () {
-                          var ans = countDuplicates(answers.values.toList());
-                          if(ans.isEmpty) {
-                            context.go("/");
-                          }
-                          Map<String, double> resMap = Map.from({
-                            ans.entries.first.key:
-                            ans.entries.first.value,
-                          });
-                          if (ans.length > 1) {
-                            resMap.addAll({
-                              ans.entries.toList()[1].key:
-                              ans.entries.toList()[1].value
-                            });
-                          }
-
-                          TestResult newResult = TestResult(
-                              id: oldTestResult!.id,
-                              comment: oldTestResult!.comment,
-                              results: resMap,
-                              answers: answers);
-                          GetIt.I<TestResultService>().updateTestResult(newResult);
-                          GoRouter.of(context).go("/");
+                          debugPrint(":::ANS::: ${answers.toString()}");
+                          GoRouter.of(context)
+                            .push('/results', extra: SaveResultEntity(answers: answers, title: oldTestResult?.comment, id: oldTestResult?.id));
                         },
-                        child: const Text("Сохранить")),
+                        child: const Text("Добавить в избранное")),
+                    // : ElevatedButton(
+                    //     onPressed: () {
+                    //
+                    //       var ans = countDuplicates(answers.values.toList());
+                    //
+                    //       debugPrint(":::ANS:: ${ans.toString()}");
+                    //
+                    //       if(ans.isEmpty) {
+                    //         context.go("/");
+                    //       }
+                    //       Map<String, double> resMap = Map.from({
+                    //         ans.entries.first.key:
+                    //         ans.entries.first.value,
+                    //       });
+                    //       if (ans.length > 1) {
+                    //         resMap.addAll({
+                    //           ans.entries.toList()[1].key:
+                    //           ans.entries.toList()[1].value
+                    //         });
+                    //       }
+                    //
+                    //       debugPrint(":::RES_MAP: ${resMap.toString()}");
+                    //       debugPrint(":::ANSWERS: ${answers.toString()}");
+                    //
+                    //       TestResult newResult = TestResult(
+                    //           id: oldTestResult!.id,
+                    //           comment: oldTestResult!.comment,
+                    //           results: resMap,
+                    //           answers: answers);
+                    //       GetIt.I<TestResultService>().updateTestResult(newResult);
+                    //       GoRouter.of(context).go("/");
+                    //     },
+                    //     child: const Text("Сохранить")),
                 const SizedBox(
                   height: 24,
                 ),

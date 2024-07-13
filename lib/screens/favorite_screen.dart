@@ -109,7 +109,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                 CircleAvatar(
                                                   radius: 6,
                                                   backgroundColor: Color(psychotypes[results?[i]
-                                                      .answers
+                                                      .results
                                                       .entries
                                                       .toList()[index]
                                                       .key] ?? 0xFFFFFFFF),

@@ -21,8 +21,17 @@ class TestResultService {
     _sharedPreferences.setString(resultsPrefName, json.encode(data));
   }
 
+  bool isExists(String id) {
+    List<TestResult> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]").map<TestResult>((el) => TestResult.fromJson(el)).toList();
+    var entity = data.where((el) => el.id == id).firstOrNull;
+    return entity != null;
+  }
+
   void addTestResult(TestResult testResult) {
     List<TestResult> data = json.decode(_sharedPreferences.getString(resultsPrefName) ?? "[]").map<TestResult>((el) => TestResult.fromJson(el)).toList();
+    if (isExists(testResult.id)) {
+      data.removeWhere((el) => el.id == testResult.id);
+    }
     data.add(testResult);
 
     _sharedPreferences.setString(resultsPrefName, json.encode(data));

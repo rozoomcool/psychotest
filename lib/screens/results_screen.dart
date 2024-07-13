@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:psyhotest/models/save_result_entity.dart';
 import 'package:psyhotest/models/test_result.dart';
 import 'package:psyhotest/screens/components/custom_bottom_navigation.dart';
 import 'package:psyhotest/service/test_result_service.dart';
@@ -25,6 +26,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   Map<String, String> data = {};
   final descriptionController = TextEditingController();
   bool _validate = true;
+  late SaveResultEntity saveResultEntity;
 
   @override
   void initState() {
@@ -59,8 +61,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   void some() async {
+    SaveResultEntity entity = GoRouterState.of(context).extra! as SaveResultEntity;
     setState(() {
-      data = GoRouterState.of(context).extra! as Map<String, String>;
+      descriptionController.text = entity.title ?? "";
+      saveResultEntity = entity;
+      data = entity.answers;
     });
     performData();
   }
@@ -175,7 +180,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                           });
                         }
                         TestResult result = TestResult(
-                            id: const Uuid().v1(),
+                            id: saveResultEntity.id ?? const Uuid().v1(),
                             comment: descriptionController.value.text,
                             results: resMap,
                             answers: data);
