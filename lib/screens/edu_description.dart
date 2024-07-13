@@ -23,17 +23,24 @@ class _EduDescriptionState extends State<EduDescription> {
   PsychotypesDesc? psychotypesDesc;
   int selectedPsychoIndex = 0;
 
-  void updateData() async {
+  void loadData() async {
     var temp = await rootBundle.loadString('assets/desc_data.json');
     setState(() {
       psychotypesDesc = PsychotypesDesc.fromJson(json.decode(temp));
     });
   }
 
+  void updateData(String value) async {
+    int index = psychotypesDesc!.psychotypes.indexWhere((psycho) => psycho.psychotype == value);
+    setState(() {
+      selectedPsychoIndex = index;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    updateData();
+    loadData();
   }
 
   @override
@@ -51,14 +58,14 @@ class _EduDescriptionState extends State<EduDescription> {
                 const SizedBox(height: 32,),
                 const Text("Информация", style: hTextStyle,),
                 const SizedBox(height: 16,),
-                // ExtendedDropDownMenu(
-                //     text: const Text("Психотипы", overflow: TextOverflow.ellipsis),
-                //     items: psychotypes,
-                //     defaultHeight: 0,
-                //     onChange: (value) => updateData(value)
-                // ),
+                ExtendedDropDownMenu(
+                    text: const Text("Психотипы", overflow: TextOverflow.ellipsis),
+                    items: psychotypes,
+                    defaultHeight: 0,
+                    onChange: (value) => updateData(value)
+                ),
                 const SizedBox(height: 16,),
-                Text(psychotypesDesc == null ? "" : "Совет", style: hintTextStyle,),
+                Text(psychotypesDesc == null ? "Совет" : "", style: hintTextStyle,),
 
                 const SizedBox(height: 16,),
                 CustomBottomNavigation(onPressed: () => context.pop(),)
