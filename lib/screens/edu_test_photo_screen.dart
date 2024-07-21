@@ -114,7 +114,7 @@ class _EduTestPhotoScreenState extends State<EduTestPhotoScreen> {
                               id: el.id,
                               text: const Row(
                                 children: [
-                                  Text("Тип лчиности",
+                                  Text("Тип личности",
                                       overflow: TextOverflow.ellipsis)
                                 ],
                               ),
