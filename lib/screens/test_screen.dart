@@ -27,17 +27,17 @@ class _TestScreenState extends State<TestScreen> {
   String? currentChapter;
   final ScrollController _controller = ScrollController();
   TestResult? oldTestResult;
+  bool isExtraFetched = false;
 
   @override
   void initState() {
     super.initState();
     loadQuestions();
-    // some();
+    // Future.delayed(const Duration(milliseconds: 500), () => some());
   }
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     some();
   }
@@ -46,6 +46,7 @@ class _TestScreenState extends State<TestScreen> {
     setState(() {
       oldTestResult = value;
     });
+    debugPrint("TEST_SCREEN load oldTestResult: $oldTestResult");
   }
 
   void _scrollDown() {
@@ -70,7 +71,7 @@ class _TestScreenState extends State<TestScreen> {
     setState(() {
       currentAnswer = value;
     });
-    addAnswer();
+    addAnswer(value);
   }
 
   updateQuestion(Question? value) {
@@ -80,11 +81,12 @@ class _TestScreenState extends State<TestScreen> {
     updateAnswer(null);
   }
 
-  void addAnswer() {
-    if (currentAnswer != null && currentQuestion != null) {
+  void addAnswer(String? value) {
+    if (currentAnswer != null && value != null) {
       setState(() {
-        answers[currentQuestion!.chapter!] = currentAnswer!;
+        answers[currentQuestion!.chapter!] = value;
       });
+      debugPrint(":: Update add answer: $answers");
     }
   }
 
@@ -101,14 +103,23 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   void some() async {
+    if (isExtraFetched) {
+      return;
+    }
+    debugPrint("PROCESS SOME");
     var extra = GoRouterState.of(context).extra as TestResult?;
 
     if (extra != null) {
       changeIsNew(extra);
       setState(() {
         answers.addEntries(extra.answers.entries);
+        debugPrint("TEST_RESULT answers: $answers");
       });
     }
+
+    setState(() {
+      isExtraFetched = true;
+    });
   }
 
   Map<String, double> countDuplicates(List<String> list) {

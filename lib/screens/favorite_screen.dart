@@ -30,6 +30,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   void loadResults() {
     setState(() => results = GetIt.I<TestResultService>().getTestResults());
+    debugPrint("FAVORITE RESULTS: $results");
   }
 
   @override

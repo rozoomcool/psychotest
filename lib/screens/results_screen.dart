@@ -22,21 +22,21 @@ class ResultsScreen extends StatefulWidget {
 }
 
 class _ResultsScreenState extends State<ResultsScreen> {
-  Map<String, double>? answers;
-  Map<String, String> data = {};
+  Map<String, double>? results;
+  Map<String, String> answers = {};
   final descriptionController = TextEditingController();
   bool _validate = true;
   late SaveResultEntity saveResultEntity;
+  bool isExtraFetched = false;
 
   @override
   void initState() {
     super.initState();
-    // Future.delayed(const Duration(milliseconds: 1000), () => some());
+    // Future.delayed(const Duration(milliseconds: 500), () => some());
   }
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     some();
   }
@@ -63,23 +63,29 @@ class _ResultsScreenState extends State<ResultsScreen> {
         counts.entries.toList()..sort((a, b) => b.value.compareTo(a.value)));
 
     setState(() {
-      answers = counts;
+      results = counts;
     });
   }
 
   void some() async {
+    if (isExtraFetched) {
+      return;
+    }
     SaveResultEntity entity = GoRouterState.of(context).extra! as SaveResultEntity;
     setState(() {
       descriptionController.text = entity.title ?? "";
       saveResultEntity = entity;
-      data = entity.answers;
     });
-    debugPrint("RESULTS_SCREEN: $data");
+    debugPrint("RESULTS_SCREEN some: $answers");
     performData();
+
+    setState(() {
+      isExtraFetched = true;;
+    });
   }
 
   void performData() async {
-    List<String> patterns = data.values.toList();
+    List<String> patterns = saveResultEntity.answers.values.toList();
     List<Question> questions = await loadQuestions();
 
     List<String> results = List.empty(growable: true);
@@ -172,25 +178,26 @@ class _ResultsScreenState extends State<ResultsScreen> {
                         //     })
                         // );
 
-                        if (answers == null || answers!.isEmpty) {
+                        if (results == null || results!.isEmpty) {
                           context.go("/");
                         }
                         Map<String, double> resMap = Map.from({
-                          answers?.entries.first.key:
-                              answers?.entries.first.value,
+                          results?.entries.first.key:
+                              results?.entries.first.value,
                         });
-                        if (answers!.length > 1) {
+                        if (results!.length > 1) {
                           resMap.addAll({
-                            answers!.entries.toList()[1].key:
-                                answers!.entries.toList()[1].value
+                            results!.entries.toList()[1].key:
+                                results!.entries.toList()[1].value
                           });
                         }
                         TestResult result = TestResult(
                             id: saveResultEntity.id ?? const Uuid().v1(),
                             comment: descriptionController.value.text,
                             results: resMap,
-                            answers: data);
+                            answers: saveResultEntity.answers);
                         GetIt.I<TestResultService>().addTestResult(result);
+                        debugPrint(result.toString());
                         context.go("/resultsplach");
                       } else {
                         notValidate();
@@ -200,7 +207,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
                 const SizedBox(
                   height: 32,
                 ),
-                answers == null
+                results == null
                     ? const SizedBox()
                     : Container(
                         decoration: BoxDecoration(
@@ -212,9 +219,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
-                            String key = answers!.entries.toList()[index].key;
-                            double value =
-                                answers!.entries.toList()[index].value;
+                            String key = results!.entries.toList()[index].key;
+                            // double value =
+                            //     results!.entries.toList()[index].value;
                             return Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -235,13 +242,13 @@ class _ResultsScreenState extends State<ResultsScreen> {
                                   ],
                                 ),
                                 Text(
-                                    "${answers!.entries.toList()[index].value}%")
+                                    "${results!.entries.toList()[index].value}%")
                               ],
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) =>
                               const SizedBox(height: 48, child: Divider()),
-                          itemCount: answers!.length,
+                          itemCount: results!.length,
                         ),
                       ),
                 const SizedBox(
