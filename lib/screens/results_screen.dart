@@ -31,7 +31,14 @@ class _ResultsScreenState extends State<ResultsScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 500), () => some());
+    // Future.delayed(const Duration(milliseconds: 1000), () => some());
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    some();
   }
 
   void notValidate() => setState(() => _validate = false);
@@ -67,6 +74,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
       saveResultEntity = entity;
       data = entity.answers;
     });
+    debugPrint("RESULTS_SCREEN: $data");
     performData();
   }
 
@@ -74,7 +82,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
     List<String> patterns = data.values.toList();
     List<Question> questions = await loadQuestions();
 
-    debugPrint(questions.length.toString());
     List<String> results = List.empty(growable: true);
     for (int i = 0; i < questions.length; i++) {
       var ans = questions[i].answers!;
@@ -85,7 +92,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
         }
       }
     }
-    debugPrint(results.toString());
     countDuplicates(results);
   }
 

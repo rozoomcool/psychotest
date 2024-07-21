@@ -2,16 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:psyhotest/models/question.dart';
 import 'package:psyhotest/models/save_result_entity.dart';
 import 'package:psyhotest/screens/components/custom_bottom_navigation.dart';
 import 'package:psyhotest/screens/components/test_drop_down_menu.dart';
 
 import '../models/test_result.dart';
-import '../service/test_result_service.dart';
 import '../utils/ui_constants.dart';
 
 class TestScreen extends StatefulWidget {
@@ -26,7 +23,6 @@ class _TestScreenState extends State<TestScreen> {
   Question? currentQuestion;
   Map<String, String> answers = {};
 
-  // List<String> answers = List.empty(growable: true);
   String? currentAnswer;
   String? currentChapter;
   final ScrollController _controller = ScrollController();
@@ -36,6 +32,13 @@ class _TestScreenState extends State<TestScreen> {
   void initState() {
     super.initState();
     loadQuestions();
+    // some();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
     some();
   }
 
@@ -60,7 +63,7 @@ class _TestScreenState extends State<TestScreen> {
     setState(() {
       data.forEach((el) => questions.add(Question.fromJson(el)));
     });
-    updateQuestion(questions[0]);
+    // updateQuestion(questions[0]);
   }
 
   updateAnswer(String? value) {
@@ -69,10 +72,6 @@ class _TestScreenState extends State<TestScreen> {
     });
     addAnswer();
   }
-
-  // updateChapter(String? value) => setState(() {
-  //       currentChapter = value;
-  //     });
 
   updateQuestion(Question? value) {
     setState(() {
@@ -84,10 +83,6 @@ class _TestScreenState extends State<TestScreen> {
   void addAnswer() {
     if (currentAnswer != null && currentQuestion != null) {
       setState(() {
-        // answers[currentQuestion!.chapter!] = currentQuestion!.answers!
-        //     .where((el) => el.pattern == currentAnswer)
-        //     .first
-        //     .psychotype!;
         answers[currentQuestion!.chapter!] = currentAnswer!;
       });
     }
@@ -99,15 +94,6 @@ class _TestScreenState extends State<TestScreen> {
 
   bool isMarkedQuestion(String value) {
     try {
-      // var question = questions
-      //     .where((el) =>
-      //         value ==
-      //         el.answers!.where((q) => q.pattern == value).first.pattern)
-      //     .first;
-      // return answers.values.contains(question.answers!
-      //     .where((el) => el.pattern == value)
-      //     .first
-      //     .psychotype);
       return answers.values.contains(value);
     } catch (e) {
       return false;
@@ -153,11 +139,7 @@ class _TestScreenState extends State<TestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    some();
     return Scaffold(
-      // bottomNavigationBar: CustomBottomNavigation(
-      //   onPressed: () => context.pop(),
-      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 31),
@@ -242,8 +224,6 @@ class _TestScreenState extends State<TestScreen> {
                 const SizedBox(
                   height: 24,
                 ),
-                // oldTestResult == null
-                //     ?
                 ElevatedButton(
                         onPressed: () {
                           debugPrint(":::ANS::: ${answers.toString()}");
@@ -251,39 +231,6 @@ class _TestScreenState extends State<TestScreen> {
                             .push('/results', extra: SaveResultEntity(answers: answers, title: oldTestResult?.comment, id: oldTestResult?.id));
                         },
                         child: const Text("Добавить в избранное")),
-                    // : ElevatedButton(
-                    //     onPressed: () {
-                    //
-                    //       var ans = countDuplicates(answers.values.toList());
-                    //
-                    //       debugPrint(":::ANS:: ${ans.toString()}");
-                    //
-                    //       if(ans.isEmpty) {
-                    //         context.go("/");
-                    //       }
-                    //       Map<String, double> resMap = Map.from({
-                    //         ans.entries.first.key:
-                    //         ans.entries.first.value,
-                    //       });
-                    //       if (ans.length > 1) {
-                    //         resMap.addAll({
-                    //           ans.entries.toList()[1].key:
-                    //           ans.entries.toList()[1].value
-                    //         });
-                    //       }
-                    //
-                    //       debugPrint(":::RES_MAP: ${resMap.toString()}");
-                    //       debugPrint(":::ANSWERS: ${answers.toString()}");
-                    //
-                    //       TestResult newResult = TestResult(
-                    //           id: oldTestResult!.id,
-                    //           comment: oldTestResult!.comment,
-                    //           results: resMap,
-                    //           answers: answers);
-                    //       GetIt.I<TestResultService>().updateTestResult(newResult);
-                    //       GoRouter.of(context).go("/");
-                    //     },
-                    //     child: const Text("Сохранить")),
                 const SizedBox(
                   height: 24,
                 ),
